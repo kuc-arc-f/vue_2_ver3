@@ -1,17 +1,29 @@
 <template>
-    <div>
+    <div class="container">
         <h1>Tasks- Index:</h1>
         <hr />
-        <router-link :to="'/tasks/new/'">[ add ]</router-link>
-        <hr />
+        <router-link :to="'/tasks/new/'">[ add ]</router-link><br />
         <br />
-        <ul v-for="task in tasks" v-bind:key="task.id">
-            <li>{{ task.title }} / id: {{ task.id }}
-                <p>{{ task.content }}</p>
-                <router-link :to="'/tasks/show/' + task.id">{{ task.title }}</router-link>
-                &nbsp;<router-link :to="'/tasks/edit/' + task.id">[ edit ]</router-link>
-            </li>
-        </ul>        
+        <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">title</th>
+            <th scope="col">content</th>
+            <th scope="col">action</th>
+        </tr>
+        </thead>
+        <tbody v-for="task in tasks" v-bind:key="task.id">
+        <tr>
+            <td>{{ task.id }}</td>
+            <td><router-link :to="'/tasks/show/' + task.id">{{ task.title }}</router-link>
+            </td>
+            <td>{{ task.content }}</td>
+            <td>&nbsp;<router-link :to="'/tasks/edit/' + task.id">[ edit ]</router-link>
+            </td>
+        </tr>
+        </tbody>
+        </table>
     </div>
 </template>
 
@@ -22,13 +34,15 @@ import {Mixin} from '../../mixin'
 export default {
   mixins:[Mixin],
   created () {
-    this.getTasks()
     this.check_userState(this.sysConst.STORAGE_KEY_userData, this)
-    /* console.log(this.sysConst.STORAGE_KEY_tasksData ) */
+    this.user_id = this.get_userId(this.sysConst.STORAGE_KEY_userData )
+    /* console.log( 'index.uid ='+ this.user_id ) */    
+    this.getTasks()
   },
   data () {
     return {
-      tasks: []
+      tasks: [],
+      user_id : ''
     }
   },
   methods: {
@@ -37,7 +51,8 @@ export default {
         var self = this
         this.database = firebase.firestore()
         var dbRef = this.database.collection('tasks')
-        dbRef = dbRef.orderBy("title", "desc")
+        dbRef = dbRef.where("uid", "==", this.user_id )
+        /* dbRef = dbRef.orderBy("up_date", "desc") */
         dbRef.get().then(function(querySnapshot) {
             querySnapshot.forEach(function(doc) {
                 /* console.log(doc.id, " => ", doc.data()) */

@@ -24,12 +24,21 @@ export const Mixin =  {
     check_userState(key, self){
         var store = this.get_exStorage(key)
         if( store.length >0){
-            var user = store[0]
-            console.log(user.uid )
+            /* var user = store[0] */
+            /* console.log(user.uid ) */
         }else{
             self.$router.push('/users/login')            
         }
-
-    }
+    },
+    get_userId(key ){
+        var ret = '';
+        var store = this.get_exStorage(key)
+        if( store.length >0){
+            var user = store[0]
+            /* console.log(user.uid ) */
+            ret = user.uid
+        }       
+        return ret
+    },
   }
 }

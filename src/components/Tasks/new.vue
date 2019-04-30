@@ -15,15 +15,21 @@
 <script>
 import firebase from 'firebase'
 var tableName = 'tasks'
+import {Mixin} from '../../mixin'
 
 export default {
+    mixins:[Mixin],
     created() {
         this.database = firebase.firestore()
+        this.check_userState(this.sysConst.STORAGE_KEY_userData, this)
+        this.user_id = this.get_userId(this.sysConst.STORAGE_KEY_userData )
+        /* console.log( 'new.uid ='+ this.user_id )  */
     },
     data() {
         return {
             title:'',
-            content:''
+            content:'',
+            user_id: '',
         }
     },
     methods: {
@@ -33,7 +39,9 @@ export default {
             if (this.newTodoName == "") { return; }
             this.database.collection(tableName).add({
                 title: this.title,
-                content: this.content
+                content: this.content,
+                uid : this.user_id,
+                up_date: new Date()
             }).then(function(docRef) {
                 console.log("Document written with ID: ", docRef.id)
                 self.$router.push('/tasks')
