@@ -40,5 +40,9 @@ export const Mixin =  {
         }       
         return ret
     },
+    test_func(){
+        return 'ABC'
+    },
+
   }
 }

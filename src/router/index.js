@@ -13,6 +13,7 @@ import tasksNew from '../components/Tasks/new'
 import tasksIndex from '../components/Tasks/Index'
 import tasksShow from '../components/Tasks/show'
 import tasksEdit from '../components/Tasks/edit'
+import tasksTest from '../components/Tasks/test'
 
 import usersLogout from '../components/Users/Logout'
 import usersCheck from '../components/Users/check'
@@ -37,6 +38,7 @@ export default new Router({
     { path: '/tasks', component: tasksIndex },
     { path: '/tasks/show/:id', component: tasksShow },
     { path: '/tasks/edit/:id', component: tasksEdit },
+    { path: '/tasks/test', component: tasksTest },
     /* users */
     { path: '/users/logout', component: usersLogout },
     { path: '/users/check', component: usersCheck },

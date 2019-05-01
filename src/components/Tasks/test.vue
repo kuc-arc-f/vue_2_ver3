@@ -7,22 +7,21 @@
 </template>
 
 <script>
-    export default {
-        created() {
-            console.log( exStorage.load( sysConst.STORAGE_KEY_flash ) )
-//            userState.check()
-//            console.log(this.user)
-//          myStorage.load()
-//            myStorage.remove()
-        },
-        data() {
-            return {
-                user : [],
-                message :''
-            }
-        },
-        methods: {
+import {Mixin} from '../../mixin'
+
+export default {
+    mixins:[Mixin],
+    created() {
+        console.log( 'test_func='+ this.test_func() )
+    },
+    data() {
+        return {
+            user : [],
+            message :''
         }
+    },
+    methods: {
     }
+}
 </script>
 
